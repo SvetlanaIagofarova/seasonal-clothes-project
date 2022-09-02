@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "629550212071",
+    "project_id": "cambridgeenglishdictionaryfree",
+    "storage_bucket": "cambridgeenglishdictionaryfree.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:629550212071:android:6c17b8e4d8183cc37a1342",
+        "android_client_info": {
+          "package_name": "com.siagofarova.cambridgeeglishdictionaryfree"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "629550212071-dfpgohhps9ngoj9esr25hbslg1bbjcs4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfmanI5IMvlmta13OCSAzbRShgledH-z4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "629550212071-dfpgohhps9ngoj9esr25hbslg1bbjcs4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
