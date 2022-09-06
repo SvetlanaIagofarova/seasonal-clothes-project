@@ -2,7 +2,6 @@ import 'package:cambridgeeglishdictionaryfree/constants/routes.dart';
 import 'package:cambridgeeglishdictionaryfree/utilities/show_error_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'dart:developer' as devtools show log;
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -60,12 +59,14 @@ class _RegisterViewState extends State<RegisterView> {
               final email = _email.text;
               final password = _password.text;
               try {
-                final userCredential =
                     await FirebaseAuth.instance.createUserWithEmailAndPassword(
                   email: email,
                   password: password,
                 );
-                devtools.log(userCredential.toString());
+                final user = FirebaseAuth.instance.currentUser;
+                await user?.sendEmailVerification();
+                if (!mounted) return;
+                Navigator.of(context).pushNamed(verifyEmailRoute);
               } on FirebaseAuthException catch (e) {
                 if (e.code == 'email-already-in-use') {
                    await showErrorDialog(
@@ -80,7 +81,7 @@ class _RegisterViewState extends State<RegisterView> {
                 } else if (e.code == 'envalid-email') {
                    await showErrorDialog(
                     context,
-                    'Invalid email',
+                    'This is an invalid email address',
                   );
                 } else {
                    await showErrorDialog(
