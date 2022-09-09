@@ -1,6 +1,6 @@
-import 'package:cambridgeeglishdictionaryfree/services/auth/auth_exceptions.dart';
-import 'package:cambridgeeglishdictionaryfree/services/auth/auth_provider.dart';
-import 'package:cambridgeeglishdictionaryfree/services/auth/auth_user.dart';
+import 'package:seasonalclothes/services/auth/auth_exceptions.dart';
+import 'package:seasonalclothes/services/auth/auth_provider.dart';
+import 'package:seasonalclothes/services/auth/auth_user.dart';
 import 'package:test/test.dart';
 
 void main() {

@@ -1,15 +1,15 @@
 {
   "project_info": {
     "project_number": "629550212071",
-    "project_id": "cambridgeenglishdictionaryfree",
-    "storage_bucket": "cambridgeenglishdictionaryfree.appspot.com"
+    "project_id": "seasonalclothes",
+    "storage_bucket": "seasonalclothes.appspot.com"
   },
   "client": [
     {
       "client_info": {
         "mobilesdk_app_id": "1:629550212071:android:6c17b8e4d8183cc37a1342",
         "android_client_info": {
-          "package_name": "com.siagofarova.cambridgeeglishdictionaryfree"
+          "package_name": "com.siagofarova.seasonalclothes"
         }
       },
       "oauth_client": [

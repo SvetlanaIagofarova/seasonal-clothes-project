@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.siagofarova.cambridgeeglishdictionaryfree">
+    package="com.siagofarova.seasonalclothes">
    <application
-        android:label="cambridgeeglishdictionaryfree"
+        android:label="seasonalclothes"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

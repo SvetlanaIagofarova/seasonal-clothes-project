@@ -1,7 +1,7 @@
-import 'package:cambridgeeglishdictionaryfree/constants/routes.dart';
-import 'package:cambridgeeglishdictionaryfree/services/auth/auth_exceptions.dart';
-import 'package:cambridgeeglishdictionaryfree/services/auth/auth_service.dart';
-import 'package:cambridgeeglishdictionaryfree/utilities/show_error_dialog.dart';
+import 'package:seasonalclothes/constants/routes.dart';
+import 'package:seasonalclothes/services/auth/auth_exceptions.dart';
+import 'package:seasonalclothes/services/auth/auth_service.dart';
+import 'package:seasonalclothes/utilities/show_error_dialog.dart';
 import 'package:flutter/material.dart';
 
 class RegisterView extends StatefulWidget {

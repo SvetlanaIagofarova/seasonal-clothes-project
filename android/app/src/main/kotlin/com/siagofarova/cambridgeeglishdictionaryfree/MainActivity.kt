@@ -1,4 +1,4 @@
-package com.siagofarova.cambridgeeglishdictionaryfree
+package com.siagofarova.seasonalclothes
 
 import io.flutter.embedding.android.FlutterActivity
 

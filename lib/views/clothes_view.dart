@@ -1,16 +1,16 @@
-import 'package:cambridgeeglishdictionaryfree/constants/routes.dart';
-import 'package:cambridgeeglishdictionaryfree/enums/menu_action.dart';
-import 'package:cambridgeeglishdictionaryfree/services/auth/auth_service.dart';
+import 'package:seasonalclothes/constants/routes.dart';
+import 'package:seasonalclothes/enums/menu_action.dart';
+import 'package:seasonalclothes/services/auth/auth_service.dart';
 import 'package:flutter/material.dart';
 
-class DictionaryView extends StatefulWidget {
-  const DictionaryView({Key? key}) : super(key: key);
+class ClothesView extends StatefulWidget {
+  const ClothesView({Key? key}) : super(key: key);
 
   @override
-  State<DictionaryView> createState() => _DictionaryViewState();
+  State<ClothesView> createState() => _ClothesViewState();
 }
 
-class _DictionaryViewState extends State<DictionaryView> {
+class _ClothesViewState extends State<ClothesView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

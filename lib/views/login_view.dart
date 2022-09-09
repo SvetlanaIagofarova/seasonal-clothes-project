@@ -1,9 +1,9 @@
 import 'dart:developer';
 
-import 'package:cambridgeeglishdictionaryfree/constants/routes.dart';
-import 'package:cambridgeeglishdictionaryfree/services/auth/auth_exceptions.dart';
-import 'package:cambridgeeglishdictionaryfree/services/auth/auth_service.dart';
-import 'package:cambridgeeglishdictionaryfree/utilities/show_error_dialog.dart';
+import 'package:seasonalclothes/constants/routes.dart';
+import 'package:seasonalclothes/services/auth/auth_exceptions.dart';
+import 'package:seasonalclothes/services/auth/auth_service.dart';
+import 'package:seasonalclothes/utilities/show_error_dialog.dart';
 import 'package:flutter/material.dart';
 
 class LoginView extends StatefulWidget {
@@ -71,7 +71,7 @@ class _LoginViewState extends State<LoginView> {
                   //user's email is verified
                   if (!mounted) return;
                   Navigator.of(context).pushNamedAndRemoveUntil(
-                    dictionaryRoute,
+                    clothesRoute,
                     (route) => false,
                   );
                 } else {

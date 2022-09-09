@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.siagofarova" "\0"
-            VALUE "FileDescription", "cambridgeeglishdictionaryfree" "\0"
+            VALUE "FileDescription", "seasonalclothes" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "cambridgeeglishdictionaryfree" "\0"
+            VALUE "InternalName", "seasonalclothes" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2022 com.siagofarova. All rights reserved." "\0"
-            VALUE "OriginalFilename", "cambridgeeglishdictionaryfree.exe" "\0"
-            VALUE "ProductName", "cambridgeeglishdictionaryfree" "\0"
+            VALUE "OriginalFilename", "seasonalclothes.exe" "\0"
+            VALUE "ProductName", "seasonalclothes" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

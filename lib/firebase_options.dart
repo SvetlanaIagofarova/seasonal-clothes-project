@@ -47,9 +47,9 @@ class DefaultFirebaseOptions {
     apiKey: 'AIzaSyD9djEQi9BlPhhH_k_abPCorcQ57hMhTxE',
     appId: '1:629550212071:web:4f08d4aed0c9301f7a1342',
     messagingSenderId: '629550212071',
-    projectId: 'cambridgeenglishdictionaryfree',
-    authDomain: 'cambridgeenglishdictionaryfree.firebaseapp.com',
-    storageBucket: 'cambridgeenglishdictionaryfree.appspot.com',
+    projectId: 'seasonalclothes',
+    authDomain: 'seasonalclothes.firebaseapp.com',
+    storageBucket: 'seasonalclothes.appspot.com',
     measurementId: 'G-41WMMLWPZ7',
   );
 
@@ -57,27 +57,27 @@ class DefaultFirebaseOptions {
     apiKey: 'AIzaSyAfmanI5IMvlmta13OCSAzbRShgledH-z4',
     appId: '1:629550212071:android:6c17b8e4d8183cc37a1342',
     messagingSenderId: '629550212071',
-    projectId: 'cambridgeenglishdictionaryfree',
-    storageBucket: 'cambridgeenglishdictionaryfree.appspot.com',
+    projectId: 'seasonalclothes',
+    storageBucket: 'seasonalclothes.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAEimhC7FB62cj-lOzOkQls8Y6CfKhpFdU',
     appId: '1:629550212071:ios:78647db75f4499d47a1342',
     messagingSenderId: '629550212071',
-    projectId: 'cambridgeenglishdictionaryfree',
-    storageBucket: 'cambridgeenglishdictionaryfree.appspot.com',
+    projectId: 'seasonalclothes',
+    storageBucket: 'seasonalclothes.appspot.com',
     iosClientId: '629550212071-7i3utvm69i9nkb27p5aenoeabiem63pf.apps.googleusercontent.com',
-    iosBundleId: 'com.siagofarova.cambridgeeglishdictionaryfree',
+    iosBundleId: 'com.siagofarova.seasonalclothes',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyAEimhC7FB62cj-lOzOkQls8Y6CfKhpFdU',
     appId: '1:629550212071:ios:78647db75f4499d47a1342',
     messagingSenderId: '629550212071',
-    projectId: 'cambridgeenglishdictionaryfree',
-    storageBucket: 'cambridgeenglishdictionaryfree.appspot.com',
+    projectId: 'seasonalclothes',
+    storageBucket: 'seasonalclothes.appspot.com',
     iosClientId: '629550212071-7i3utvm69i9nkb27p5aenoeabiem63pf.apps.googleusercontent.com',
-    iosBundleId: 'com.siagofarova.cambridgeeglishdictionaryfree',
+    iosBundleId: 'com.siagofarova.seasonalclothes',
   );
 }

@@ -1,5 +1,5 @@
-import 'package:cambridgeeglishdictionaryfree/constants/routes.dart';
-import 'package:cambridgeeglishdictionaryfree/services/auth/auth_service.dart';
+import 'package:seasonalclothes/constants/routes.dart';
+import 'package:seasonalclothes/services/auth/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class VerifyEmailView extends StatefulWidget {

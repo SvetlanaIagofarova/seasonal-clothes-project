@@ -1,9 +1,9 @@
-import 'package:cambridgeeglishdictionaryfree/constants/routes.dart';
-import 'package:cambridgeeglishdictionaryfree/services/auth/auth_service.dart';
-import 'package:cambridgeeglishdictionaryfree/views/dictionary_view.dart';
-import 'package:cambridgeeglishdictionaryfree/views/login_view.dart';
-import 'package:cambridgeeglishdictionaryfree/views/register_view.dart';
-import 'package:cambridgeeglishdictionaryfree/views/verify_email_view.dart';
+import 'package:seasonalclothes/constants/routes.dart';
+import 'package:seasonalclothes/services/auth/auth_service.dart';
+import 'package:seasonalclothes/views/clothes_view.dart';
+import 'package:seasonalclothes/views/login_view.dart';
+import 'package:seasonalclothes/views/register_view.dart';
+import 'package:seasonalclothes/views/verify_email_view.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -18,7 +18,7 @@ void main() {
       routes: {
         loginRoute: (context) => const LoginView(),
         registerRoute: (context) => const RegisterView(),
-        dictionaryRoute:(context) => const DictionaryView(),
+        clothesRoute:(context) => const ClothesView(),
         verifyEmailRoute:(context) => const VerifyEmailView(),
       },
     ),
@@ -38,7 +38,7 @@ class HomePage extends StatelessWidget {
             final user = AuthService.firebase().currentUser;
             if (user != null) {
               if (user.isEmailVerified) {
-                return const DictionaryView();
+                return const ClothesView();
               } else {
                 return const VerifyEmailView();
               }
