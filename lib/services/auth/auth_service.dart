@@ -1,6 +1,6 @@
-import 'package:seasonalclothes/services/auth/auth_user.dart';
-import 'package:seasonalclothes/services/auth/auth_provider.dart';
-import 'package:seasonalclothes/services/auth/firebase_auth_provider.dart';
+import 'package:seasonalclothesproject/services/auth/auth_user.dart';
+import 'package:seasonalclothesproject/services/auth/auth_provider.dart';
+import 'package:seasonalclothesproject/services/auth/firebase_auth_provider.dart';
 
 class AuthService implements AuthProvider {
   final AuthProvider provider;

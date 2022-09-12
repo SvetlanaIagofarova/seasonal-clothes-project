@@ -1,6 +1,6 @@
-import 'package:seasonalclothes/constants/routes.dart';
-import 'package:seasonalclothes/enums/menu_action.dart';
-import 'package:seasonalclothes/services/auth/auth_service.dart';
+import 'package:seasonalclothesproject/constants/routes.dart';
+import 'package:seasonalclothesproject/enums/menu_action.dart';
+import 'package:seasonalclothesproject/services/auth/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class ClothesView extends StatefulWidget {

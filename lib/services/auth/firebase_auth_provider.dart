@@ -1,7 +1,7 @@
-import 'package:seasonalclothes/firebase_options.dart';
-import 'package:seasonalclothes/services/auth/auth_user.dart';
-import 'package:seasonalclothes/services/auth/auth_provider.dart';
-import 'package:seasonalclothes/services/auth/auth_exceptions.dart';
+import 'package:seasonalclothesproject/firebase_options.dart';
+import 'package:seasonalclothesproject/services/auth/auth_user.dart';
+import 'package:seasonalclothesproject/services/auth/auth_provider.dart';
+import 'package:seasonalclothesproject/services/auth/auth_exceptions.dart';
 import 'package:firebase_auth/firebase_auth.dart'
     show FirebaseAuth, FirebaseAuthException;
 import 'package:firebase_core/firebase_core.dart';

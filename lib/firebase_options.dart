@@ -17,7 +17,10 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -25,7 +28,10 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -43,41 +49,21 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyD9djEQi9BlPhhH_k_abPCorcQ57hMhTxE',
-    appId: '1:629550212071:web:4f08d4aed0c9301f7a1342',
-    messagingSenderId: '629550212071',
-    projectId: 'seasonalclothes',
-    authDomain: 'seasonalclothes.firebaseapp.com',
-    storageBucket: 'seasonalclothes.appspot.com',
-    measurementId: 'G-41WMMLWPZ7',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAfmanI5IMvlmta13OCSAzbRShgledH-z4',
-    appId: '1:629550212071:android:6c17b8e4d8183cc37a1342',
-    messagingSenderId: '629550212071',
-    projectId: 'seasonalclothes',
-    storageBucket: 'seasonalclothes.appspot.com',
+    apiKey: 'AIzaSyDX2CXyEOrLKT8VXWhESl8xA3sTcp2IUgg',
+    appId: '1:783037481239:android:eaa6e54d6c463d507ab752',
+    messagingSenderId: '783037481239',
+    projectId: 'seasonalclothesproject',
+    storageBucket: 'seasonalclothesproject.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAEimhC7FB62cj-lOzOkQls8Y6CfKhpFdU',
-    appId: '1:629550212071:ios:78647db75f4499d47a1342',
-    messagingSenderId: '629550212071',
-    projectId: 'seasonalclothes',
-    storageBucket: 'seasonalclothes.appspot.com',
-    iosClientId: '629550212071-7i3utvm69i9nkb27p5aenoeabiem63pf.apps.googleusercontent.com',
-    iosBundleId: 'com.siagofarova.seasonalclothes',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyAEimhC7FB62cj-lOzOkQls8Y6CfKhpFdU',
-    appId: '1:629550212071:ios:78647db75f4499d47a1342',
-    messagingSenderId: '629550212071',
-    projectId: 'seasonalclothes',
-    storageBucket: 'seasonalclothes.appspot.com',
-    iosClientId: '629550212071-7i3utvm69i9nkb27p5aenoeabiem63pf.apps.googleusercontent.com',
-    iosBundleId: 'com.siagofarova.seasonalclothes',
+    apiKey: 'AIzaSyDbU-8ofNBZeUVNrDJwzaacG_bEPQlAIRQ',
+    appId: '1:783037481239:ios:d6cd65de01b7e00c7ab752',
+    messagingSenderId: '783037481239',
+    projectId: 'seasonalclothesproject',
+    storageBucket: 'seasonalclothesproject.appspot.com',
+    iosClientId: '783037481239-dmsar0dgks491n7hn56m6buhiijm4j93.apps.googleusercontent.com',
+    iosBundleId: 'com.siagofarova.seasonalclothesproject',
   );
 }

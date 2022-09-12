@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.siagofarova.seasonalclothes">
+    package="com.siagofarova.seasonalclothesproject">
    <application
-        android:label="seasonalclothes"
+        android:label="seasonalclothesproject"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

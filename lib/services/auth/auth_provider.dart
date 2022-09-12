@@ -1,4 +1,4 @@
-import 'package:seasonalclothes/services/auth/auth_user.dart';
+import 'package:seasonalclothesproject/services/auth/auth_user.dart';
 
 abstract class AuthProvider {
   Future<void> initialize();

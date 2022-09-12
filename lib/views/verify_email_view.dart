@@ -1,5 +1,5 @@
-import 'package:seasonalclothes/constants/routes.dart';
-import 'package:seasonalclothes/services/auth/auth_service.dart';
+import 'package:seasonalclothesproject/constants/routes.dart';
+import 'package:seasonalclothesproject/services/auth/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class VerifyEmailView extends StatefulWidget {

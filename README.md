@@ -1,4 +1,4 @@
-# seasonalclothes
+# seasonalclothesproject
 
 A new Flutter project.
 
