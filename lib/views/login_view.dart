@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:seasonalclothesproject/constants/routes.dart';
 import 'package:seasonalclothesproject/services/auth/auth_exceptions.dart';
 import 'package:seasonalclothesproject/services/auth/auth_service.dart';
