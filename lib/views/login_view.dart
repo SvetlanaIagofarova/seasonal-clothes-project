@@ -69,7 +69,7 @@ class _LoginViewState extends State<LoginView> {
                   //user's email is verified
                   if (!mounted) return;
                   Navigator.of(context).pushNamedAndRemoveUntil(
-                    clothesRoute,
+                    garmentsRoute,
                     (route) => false,
                   );
                 } else {

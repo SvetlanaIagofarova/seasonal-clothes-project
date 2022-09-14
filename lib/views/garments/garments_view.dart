@@ -2,16 +2,16 @@ import 'package:seasonalclothesproject/constants/routes.dart';
 import 'package:seasonalclothesproject/enums/menu_action.dart';
 import 'package:seasonalclothesproject/services/auth/auth_service.dart';
 import 'package:flutter/material.dart';
-import 'package:seasonalclothesproject/services/crud/clothes_service.dart';
 
-class ClothesView extends StatefulWidget {
-  const ClothesView({Key? key}) : super(key: key);
+
+class GarmentsView extends StatefulWidget {
+  const GarmentsView({Key? key}) : super(key: key);
 
   @override
-  State<ClothesView> createState() => _ClothesViewState();
+  State<GarmentsView> createState() => _GarmentsViewState();
 }
 
-class _ClothesViewState extends State<ClothesView> {
+class _GarmentsViewState extends State<GarmentsView> {
   late final ClothesSevice _clothesSevice;
   String get userEmail => AuthService.firebase().currentUser!.email!;
 
@@ -19,12 +19,6 @@ class _ClothesViewState extends State<ClothesView> {
   void initState() {
     _clothesSevice = ClothesSevice();
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    _clothesSevice.close();
-    super.dispose();
   }
 
   @override
@@ -76,7 +70,27 @@ class _ClothesViewState extends State<ClothesView> {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
                     case ConnectionState.active:
-                      return const Text('Waiting for all clothes... ');
+                      if (snapshot.hasData) {
+                        final allClothes =
+                            snapshot.data as List<DatabaseGarment>;
+                        return ListView.builder(
+                          itemCount: allClothes.length,
+                          itemBuilder: (context, index) {
+                            final garment = allClothes[index];
+                            return ListTile(
+                              title: Text(
+                                garment.text,
+                                maxLines: 1,
+                                softWrap: true,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            );
+                          },
+                        );
+                      } else {
+                        return const CircularProgressIndicator();
+                      }
+
                     default:
                       return const CircularProgressIndicator();
                   }

@@ -1,5 +1,4 @@
 const loginRoute = '/login/';
 const registerRoute = '/register/';
-const clothesRoute = '/clothes/';
+const garmentsRoute = '/garments/';
 const verifyEmailRoute = '/verify-email/';
-const newGarmentRoute = '/clothes/new-garment/';
