@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:seasonalclothesproject/services/crud/crud_exceptions.dart';
 import 'package:sqflite/sqflite.dart';
@@ -9,16 +8,16 @@ import 'package:path/path.dart' show join;
 class ClothesSevice {
   Database? _db;
 
-  List<DatabaseClothes> _clothes = [];
+  List<DatabaseGarment> _clothes = [];
 
   static final ClothesSevice _shared = ClothesSevice._sharedInstance();
   ClothesSevice._sharedInstance();
   factory ClothesSevice() => _shared;
 
   final _clothesStreamController =
-      StreamController<List<DatabaseClothes>>.broadcast();
+      StreamController<List<DatabaseGarment>>.broadcast();
 
-  Stream<List<DatabaseClothes>> get allClothes =>
+  Stream<List<DatabaseGarment>> get allClothes =>
       _clothesStreamController.stream;
 
   Future<void> _ensureDbIsOpen() async {
@@ -41,62 +40,62 @@ class ClothesSevice {
     }
   }
 
-  Future<void> _cachClothes() async {
+  Future<void> _cacheClothes() async {
     final allClothes = await getAllClothes();
     _clothes = allClothes.toList();
     _clothesStreamController.add(_clothes);
   }
 
-  Future<DatabaseClothes> updateClothes({
-    required DatabaseClothes clothes,
+  Future<DatabaseGarment> updateGarment({
+    required DatabaseGarment garment,
     required String text,
   }) async {
     await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
 
     //make sure clothes exists
-    await getClothes(id: clothes.id);
+    await getGarment(id: garment.id);
 
     //update DB
-    final updatesCount = await db.update(clothesTable, {
+    final updatesCount = await db.update(garmentTable, {
       textColumn: text,
       isSyncedWithCloudColumn: 0,
     });
 
     if (updatesCount == 0) {
-      throw CouldNotUpdateClothes();
+      throw CouldNotUpdateGarment();
     } else {
-      final updatedClothes = await getClothes(id: clothes.id);
-      _clothes.removeWhere((clothes) => clothes.id == updatedClothes.id);
-      _clothes.add(updatedClothes);
+      final updatedGarment = await getGarment(id: garment.id);
+      _clothes.removeWhere((garment) => garment.id == updatedGarment.id);
+      _clothes.add(updatedGarment);
       _clothesStreamController.add(_clothes);
-      return updatedClothes;
+      return updatedGarment;
     }
   }
 
-  Future<Iterable<DatabaseClothes>> getAllClothes() async {
+  Future<Iterable<DatabaseGarment>> getAllClothes() async {
     await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
-    final allClothes = await db.query(clothesTable);
+    final allClothes = await db.query(garmentTable);
 
-    return allClothes.map((clothesRow) => DatabaseClothes.fromRow(clothesRow));
+    return allClothes.map((clothesRow) => DatabaseGarment.fromRow(clothesRow));
   }
 
-  Future<DatabaseClothes> getClothes({required int id}) async {
+  Future<DatabaseGarment> getGarment({required int id}) async {
     await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
     final allClothes = await db.query(
-      clothesTable,
+      garmentTable,
       limit: 1,
       where: 'id = ?',
       whereArgs: [id],
     );
 
     if (allClothes.isEmpty) {
-      throw CouldNotFindClothes();
+      throw CouldNotFindGarment();
     } else {
-      final clothes = DatabaseClothes.fromRow(allClothes.first);
-      _clothes.removeWhere((clothes) => clothes.id == id);
+      final clothes = DatabaseGarment.fromRow(allClothes.first);
+      _clothes.removeWhere((garment) => garment.id == id);
       _clothes.add(clothes);
       _clothesStreamController.add(_clothes);
       return clothes;
@@ -106,13 +105,13 @@ class ClothesSevice {
   Future<int> deleteAllClothes() async {
     await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
-    final numberOfDeletions = await db.delete(clothesTable);
+    final numberOfDeletions = await db.delete(garmentTable);
     _clothes = [];
     _clothesStreamController.add(_clothes);
     return numberOfDeletions;
   }
 
-  Future<void> deleteClothes({required String id}) async {
+  Future<void> deleteGarment({required int id}) async {
     await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
     final deletedCount = await db.delete(
@@ -121,17 +120,17 @@ class ClothesSevice {
       whereArgs: [id],
     );
     if (deletedCount != 1) {
-      throw CouldNotDeleteClothes();
+      throw CouldNotDeleteGarment();
     } else {
       final countBefore = _clothes.length;
-      _clothes.removeWhere((clothes) => clothes.id == id);
+      _clothes.removeWhere((garment) => garment.id == id);
       if (_clothes.length != countBefore) {
         _clothesStreamController.add(_clothes);
       }
     }
   }
 
-  Future<DatabaseClothes> createClothes({required DatabaseUser owner}) async {
+  Future<DatabaseGarment> createGarment({required DatabaseUser owner}) async {
     await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
 
@@ -143,23 +142,23 @@ class ClothesSevice {
 
     const text = '';
     //create clothes
-    final clothesId = await db.insert(clothesTable, {
+    final garmentId = await db.insert(garmentTable, {
       userIdColumn: owner.id,
       textColumn: text,
       isSyncedWithCloudColumn: 1,
     });
 
-    final clothes = DatabaseClothes(
-      id: clothesId,
+    final garment = DatabaseGarment(
+      id: garmentId,
       userId: owner.id,
       text: text,
       isSyncedWithCloud: true,
     );
 
-    _clothes.add(clothes);
+    _clothes.add(garment);
     _clothesStreamController.add(_clothes);
 
-    return clothes;
+    return garment;
   }
 
   Future<DatabaseUser> getUser({required String email}) async {
@@ -245,8 +244,8 @@ class ClothesSevice {
       // create user table
       await db.execute(createUserTable);
       // create clothes table
-      await db.execute(createClothesTable);
-      await _cachClothes();
+      await db.execute(createGarmentTable);
+      await _cacheClothes();
     } on MissingPlatformDirectoryException {
       throw UnableToGetDocumentsDirectory();
     }
@@ -277,19 +276,19 @@ class DatabaseUser {
   int get hashCode => id.hashCode;
 }
 
-class DatabaseClothes {
+class DatabaseGarment {
   final int id;
   final int userId;
   final String text;
   final bool isSyncedWithCloud;
 
-  DatabaseClothes(
+  DatabaseGarment(
       {required this.id,
       required this.userId,
       required this.text,
       required this.isSyncedWithCloud});
 
-  DatabaseClothes.fromRow(Map<String, Object?> map)
+  DatabaseGarment.fromRow(Map<String, Object?> map)
       : id = map[idColumn] as int,
         userId = map[emailColumn] as int,
         text = map[textColumn] as String,
@@ -301,14 +300,14 @@ class DatabaseClothes {
       'Clothes, ID = $id, userId = $userId, isSyncedWithCloud = $isSyncedWithCloud, text = $text';
 
   @override
-  bool operator ==(covariant DatabaseClothes other) => id == other.id;
+  bool operator ==(covariant DatabaseGarment other) => id == other.id;
 
   @override
   int get hashCode => id.hashCode;
 }
 
 const dbName = 'clothes.db';
-const clothesTable = 'clothes';
+const garmentTable = 'clothes';
 const userTable = 'user';
 const idColumn = 'id';
 const emailColumn = 'email';
@@ -320,7 +319,7 @@ const createUserTable = '''CREATE TABLE IF NOT EXISTS "user" (
 	    "email"	TEXT NOT NULL UNIQUE,
 	    PRIMARY KEY("id" AUTOINCREMENT)
     );''';
-const createClothesTable = '''CREATE TABLE IF NOT EXISTS "clothes" (
+const createGarmentTable = '''CREATE TABLE IF NOT EXISTS "clothes" (
       "id"	INTEGER NOT NULL,
       "user_id"	INTEGER NOT NULL,
       "text"	TEXT,

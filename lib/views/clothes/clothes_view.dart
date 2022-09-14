@@ -75,6 +75,7 @@ class _ClothesViewState extends State<ClothesView> {
                 builder: (context, snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
+                    case ConnectionState.active:
                       return const Text('Waiting for all clothes... ');
                     default:
                       return const CircularProgressIndicator();

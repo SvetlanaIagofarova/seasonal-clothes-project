@@ -10,8 +10,8 @@ class UserAlreadyExists implements Exception {}
 
 class CouldNotFindUser implements Exception {}
 
-class CouldNotDeleteClothes implements Exception {}
+class CouldNotDeleteGarment implements Exception {}
 
-class CouldNotFindClothes implements Exception {}
+class CouldNotFindGarment implements Exception {}
 
-class CouldNotUpdateClothes implements Exception {}
+class CouldNotUpdateGarment implements Exception {}
