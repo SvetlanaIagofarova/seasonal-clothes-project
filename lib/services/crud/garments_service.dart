@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:seasonalclothesproject/services/crud/crud_exceptions.dart';
 import 'package:sqflite/sqflite.dart';
@@ -7,13 +8,50 @@ import 'package:path/path.dart' show join;
 class GarmentsService {
   Database? _db;
 
+  List<DatabaseGarment> _garments = [];
+
+  static final GarmentsService _shared = GarmentsService._sharedInstance();
+  GarmentsService._sharedInstance() {
+    _garmentsStreamController =
+        StreamController<List<DatabaseGarment>>.broadcast(
+      onListen: () {
+        _garmentsStreamController.sink.add(_garments);
+      },
+    );
+  }
+  factory GarmentsService() => _shared;
+
+  late final StreamController<List<DatabaseGarment>> _garmentsStreamController;
+
+  Stream<List<DatabaseGarment>> get allGarments =>
+      _garmentsStreamController.stream;
+
+  Future<DatabaseUser> getOrCreateUser({required String email}) async {
+    try {
+      final user = await getUser(email: email);
+      return user;
+    } on CouldNotFindUser {
+      final createdUser = await createUser(email: email);
+      return createdUser;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> _cacheGarments() async {
+    final allGarments = await getAllGarments();
+    _garments = allGarments.toList();
+    _garmentsStreamController.add(_garments);
+  }
+
   Future<DatabaseGarment> updateGarment({
     required DatabaseGarment garment,
     required String text,
   }) async {
+    await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
 
-    //make sure clothes exists
+    //make sure garment exists
     await getGarment(id: garment.id);
 
     //update DB
@@ -25,11 +63,16 @@ class GarmentsService {
     if (updatesCount == 0) {
       throw CouldNotUpdateGarment();
     } else {
-      return await getGarment(id: garment.id);
+      final updatedGarment = await getGarment(id: garment.id);
+      _garments.removeWhere((garment) => garment.id == updatedGarment.id);
+      _garments.add(updatedGarment);
+      _garmentsStreamController.add(_garments);
+      return updatedGarment;
     }
   }
 
   Future<Iterable<DatabaseGarment>> getAllGarments() async {
+    await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
     final allGarments = await db.query(garmentTable);
 
@@ -37,6 +80,7 @@ class GarmentsService {
   }
 
   Future<DatabaseGarment> getGarment({required int id}) async {
+    await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
     final garments = await db.query(
       garmentTable,
@@ -49,16 +93,24 @@ class GarmentsService {
       throw CouldNotFindGarment();
     } else {
       final garment = DatabaseGarment.fromRow(garments.first);
+      _garments.removeWhere((garment) => garment.id == id);
+      _garments.add(garment);
+      _garmentsStreamController.add(_garments);
       return garment;
     }
   }
 
   Future<int> deleteAllGarments() async {
+    await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
-    return await db.delete(garmentTable);
+    final numberOfDeletions = await db.delete(garmentTable);
+    _garments = [];
+    _garmentsStreamController.add(_garments);
+    return numberOfDeletions;
   }
 
   Future<void> deleteGarment({required int id}) async {
+    await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
     final deletedCount = await db.delete(
       garmentTable,
@@ -67,10 +119,14 @@ class GarmentsService {
     );
     if (deletedCount == 0) {
       throw CouldNotDeleteGarment();
+    } else {
+      _garments.removeWhere((garment) => garment.id == id);
+      _garmentsStreamController.add(_garments);
     }
   }
 
   Future<DatabaseGarment> createGarment({required DatabaseUser owner}) async {
+    await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
 
     //make sure owner exists in the database with the correct id
@@ -94,10 +150,14 @@ class GarmentsService {
       isSyncedWithCloud: true,
     );
 
+    _garments.add(garment);
+    _garmentsStreamController.add(_garments);
+
     return garment;
   }
 
   Future<DatabaseUser> getUser({required String email}) async {
+    await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
     final results = await db.query(
       userTable,
@@ -113,6 +173,7 @@ class GarmentsService {
   }
 
   Future<DatabaseUser> createUser({required String email}) async {
+    await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
     final results = await db.query(
       userTable,
@@ -135,6 +196,7 @@ class GarmentsService {
   }
 
   Future<void> deleteUser({required String email}) async {
+    await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
     final deletedCount = await db.delete(
       userTable,
@@ -165,6 +227,14 @@ class GarmentsService {
     }
   }
 
+  Future<void> _ensureDbIsOpen() async {
+    try {
+      await open();
+    } on DatabaseAlreadyOpenException {
+      //empty
+    }
+  }
+
   Future<void> open() async {
     if (_db != null) {
       throw DatabaseAlreadyOpenException();
@@ -178,6 +248,7 @@ class GarmentsService {
       await db.execute(createUserTable);
       // create garment table
       await db.execute(createGarmentTable);
+      await _cacheGarments();
     } on MissingPlatformDirectoryException {
       throw UnableToGetDocumentsDirectory();
     }

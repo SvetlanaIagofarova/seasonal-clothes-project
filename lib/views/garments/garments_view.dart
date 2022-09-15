@@ -2,7 +2,7 @@ import 'package:seasonalclothesproject/constants/routes.dart';
 import 'package:seasonalclothesproject/enums/menu_action.dart';
 import 'package:seasonalclothesproject/services/auth/auth_service.dart';
 import 'package:flutter/material.dart';
-
+import 'package:seasonalclothesproject/services/crud/garments_service.dart';
 
 class GarmentsView extends StatefulWidget {
   const GarmentsView({Key? key}) : super(key: key);
@@ -12,12 +12,12 @@ class GarmentsView extends StatefulWidget {
 }
 
 class _GarmentsViewState extends State<GarmentsView> {
-  late final ClothesSevice _clothesSevice;
+  late final GarmentsService _garmentsService;
   String get userEmail => AuthService.firebase().currentUser!.email!;
 
   @override
   void initState() {
-    _clothesSevice = ClothesSevice();
+    _garmentsService = GarmentsService();
     super.initState();
   }
 
@@ -60,23 +60,23 @@ class _GarmentsViewState extends State<GarmentsView> {
         ],
       ),
       body: FutureBuilder(
-        future: _clothesSevice.getOrCreateUser(email: userEmail),
+        future: _garmentsService.getOrCreateUser(email: userEmail),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.done:
               return StreamBuilder(
-                stream: _clothesSevice.allClothes,
+                stream: _garmentsService.allGarments,
                 builder: (context, snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
                     case ConnectionState.active:
                       if (snapshot.hasData) {
-                        final allClothes =
+                        final allGarments =
                             snapshot.data as List<DatabaseGarment>;
                         return ListView.builder(
-                          itemCount: allClothes.length,
+                          itemCount: allGarments.length,
                           itemBuilder: (context, index) {
-                            final garment = allClothes[index];
+                            final garment = allGarments[index];
                             return ListTile(
                               title: Text(
                                 garment.text,
@@ -90,7 +90,6 @@ class _GarmentsViewState extends State<GarmentsView> {
                       } else {
                         return const CircularProgressIndicator();
                       }
-
                     default:
                       return const CircularProgressIndicator();
                   }
