@@ -3,6 +3,8 @@ import 'package:seasonalclothesproject/enums/menu_action.dart';
 import 'package:seasonalclothesproject/services/auth/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:seasonalclothesproject/services/crud/garments_service.dart';
+import 'package:seasonalclothesproject/utilities/dialogs/logout_dialog.dart';
+import 'package:seasonalclothesproject/views/garments/garments_list_view.dart';
 
 class GarmentsView extends StatefulWidget {
   const GarmentsView({Key? key}) : super(key: key);
@@ -73,18 +75,11 @@ class _GarmentsViewState extends State<GarmentsView> {
                       if (snapshot.hasData) {
                         final allGarments =
                             snapshot.data as List<DatabaseGarment>;
-                        return ListView.builder(
-                          itemCount: allGarments.length,
-                          itemBuilder: (context, index) {
-                            final garment = allGarments[index];
-                            return ListTile(
-                              title: Text(
-                                garment.text,
-                                maxLines: 1,
-                                softWrap: true,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            );
+                        return GarmentsListView(
+                          garments: allGarments,
+                          onDeleteGarment: (garment) async {
+                            await _garmentsService.deleteGarment(
+                                id: garment.id);
                           },
                         );
                       } else {
@@ -102,30 +97,4 @@ class _GarmentsViewState extends State<GarmentsView> {
       ),
     );
   }
-}
-
-Future<bool> showLogOutDialog(BuildContext context) {
-  return showDialog<bool>(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        title: const Text('Log out'),
-        content: const Text('Are you sure you want to sign out?'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(false);
-            },
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(true);
-            },
-            child: const Text('Log out'),
-          )
-        ],
-      );
-    },
-  ).then((value) => value ?? false);
 }

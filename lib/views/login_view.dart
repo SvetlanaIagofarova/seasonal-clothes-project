@@ -1,7 +1,7 @@
 import 'package:seasonalclothesproject/constants/routes.dart';
 import 'package:seasonalclothesproject/services/auth/auth_exceptions.dart';
 import 'package:seasonalclothesproject/services/auth/auth_service.dart';
-import 'package:seasonalclothesproject/utilities/show_error_dialog.dart';
+import 'package:seasonalclothesproject/utilities/dialogs/error_dialog.dart';
 import 'package:flutter/material.dart';
 
 class LoginView extends StatefulWidget {
@@ -95,7 +95,7 @@ class _LoginViewState extends State<LoginView> {
                   context,
                   'Failed to register',
                 );
-              }  
+              }
             },
             child: const Text('Login'),
           ),
