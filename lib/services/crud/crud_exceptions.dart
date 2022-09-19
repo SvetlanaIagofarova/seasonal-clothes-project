@@ -15,3 +15,5 @@ class CouldNotDeleteGarment implements Exception {}
 class CouldNotFindGarment implements Exception {}
 
 class CouldNotUpdateGarment implements Exception {}
+
+class UserShouldBeSetBeforeReadingAllGarments implements Exception {}
