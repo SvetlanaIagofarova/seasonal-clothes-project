@@ -31,7 +31,7 @@ class _GarmentsViewState extends State<GarmentsView> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.of(context).pushNamed(newGarmentRoute);
+              Navigator.of(context).pushNamed(createOrUpdateGarmentRoute);
             },
             icon: const Icon(Icons.add),
           ),
@@ -80,6 +80,12 @@ class _GarmentsViewState extends State<GarmentsView> {
                           onDeleteGarment: (garment) async {
                             await _garmentsService.deleteGarment(
                                 id: garment.id);
+                          },
+                          onTap: (garment) {
+                            Navigator.of(context).pushNamed(
+                              createOrUpdateGarmentRoute,
+                              arguments: garment,
+                            );
                           },
                         );
                       } else {

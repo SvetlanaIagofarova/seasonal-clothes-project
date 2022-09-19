@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:seasonalclothesproject/services/auth/auth_service.dart';
 import 'package:seasonalclothesproject/services/crud/garments_service.dart';
+import 'package:seasonalclothesproject/utilities/generics/get_arguments.dart';
 
-class NewGarmentView extends StatefulWidget {
-  const NewGarmentView({super.key});
+class CreateUpdateGarmentView extends StatefulWidget {
+  const CreateUpdateGarmentView({super.key});
 
   @override
-  State<NewGarmentView> createState() => _NewGarmentViewState();
+  State<CreateUpdateGarmentView> createState() =>
+      _CreateUpdateGarmentViewState();
 }
 
-class _NewGarmentViewState extends State<NewGarmentView> {
+class _CreateUpdateGarmentViewState extends State<CreateUpdateGarmentView> {
   DatabaseGarment? _garment;
   late final GarmentsService _garmentsService;
   late final TextEditingController _textController;
@@ -38,7 +40,16 @@ class _NewGarmentViewState extends State<NewGarmentView> {
     _textController.addListener(_textControllerListener);
   }
 
-  Future<DatabaseGarment> createNewGarment() async {
+  Future<DatabaseGarment> createOrGetExistingGarment(
+    BuildContext context) async {
+    final widgetGarment = context.getArgument<DatabaseGarment>();
+
+    if (widgetGarment != null) {
+      _garment = widgetGarment;
+      _textController.text = widgetGarment.text;
+      return widgetGarment;
+    }
+
     final existingGarment = _garment;
     if (existingGarment != null) {
       return existingGarment;
@@ -46,7 +57,9 @@ class _NewGarmentViewState extends State<NewGarmentView> {
     final currentUser = AuthService.firebase().currentUser!;
     final email = currentUser.email!;
     final owner = await _garmentsService.getOrCreateUser(email: email);
-    return _garmentsService.createGarment(owner: owner);
+    final newGarment = await _garmentsService.createGarment(owner: owner);
+    _garment = newGarment;
+    return newGarment;
   }
 
   void _deleteGarmentIfItIsEmpty() {
@@ -82,11 +95,10 @@ class _NewGarmentViewState extends State<NewGarmentView> {
           title: const Text('New Garment'),
         ),
         body: FutureBuilder(
-          future: createNewGarment(),
+          future: createOrGetExistingGarment(context),
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.done:
-                _garment = snapshot.data as DatabaseGarment;
                 _setupTextControllerListener();
                 return TextField(
                   controller: _textController,
