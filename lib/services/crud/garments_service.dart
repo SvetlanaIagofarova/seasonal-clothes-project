@@ -334,7 +334,7 @@ class DatabaseGarment {
   int get hashCode => id.hashCode;
 }
 
-const dbName = 'clothes.db';
+const dbName = 'garments.db';
 const garmentTable = 'garment';
 const userTable = 'user';
 const idColumn = 'id';

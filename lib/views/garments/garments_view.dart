@@ -15,7 +15,7 @@ class GarmentsView extends StatefulWidget {
 
 class _GarmentsViewState extends State<GarmentsView> {
   late final GarmentsService _garmentsService;
-  String get userEmail => AuthService.firebase().currentUser!.email!;
+  String get userEmail => AuthService.firebase().currentUser!.email;
 
   @override
   void initState() {

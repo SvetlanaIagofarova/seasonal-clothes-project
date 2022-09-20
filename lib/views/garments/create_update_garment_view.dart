@@ -55,7 +55,7 @@ class _CreateUpdateGarmentViewState extends State<CreateUpdateGarmentView> {
       return existingGarment;
     }
     final currentUser = AuthService.firebase().currentUser!;
-    final email = currentUser.email!;
+    final email = currentUser.email;
     final owner = await _garmentsService.getOrCreateUser(email: email);
     final newGarment = await _garmentsService.createGarment(owner: owner);
     _garment = newGarment;
