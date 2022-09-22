@@ -2,7 +2,8 @@ import 'package:seasonalclothesproject/constants/routes.dart';
 import 'package:seasonalclothesproject/enums/menu_action.dart';
 import 'package:seasonalclothesproject/services/auth/auth_service.dart';
 import 'package:flutter/material.dart';
-import 'package:seasonalclothesproject/services/crud/garments_service.dart';
+import 'package:seasonalclothesproject/services/cloud/cloud_garment.dart';
+import 'package:seasonalclothesproject/services/cloud/firebase_cloud_storage.dart';
 import 'package:seasonalclothesproject/utilities/dialogs/logout_dialog.dart';
 import 'package:seasonalclothesproject/views/garments/garments_list_view.dart';
 
@@ -14,12 +15,12 @@ class GarmentsView extends StatefulWidget {
 }
 
 class _GarmentsViewState extends State<GarmentsView> {
-  late final GarmentsService _garmentsService;
-  String get userEmail => AuthService.firebase().currentUser!.email;
+  late final FirebaseCloudStorage _garmentsService;
+  String get userId => AuthService.firebase().currentUser!.id;
 
   @override
   void initState() {
-    _garmentsService = GarmentsService();
+    _garmentsService = FirebaseCloudStorage();
     super.initState();
   }
 
@@ -61,41 +62,30 @@ class _GarmentsViewState extends State<GarmentsView> {
           )
         ],
       ),
-      body: FutureBuilder(
-        future: _garmentsService.getOrCreateUser(email: userEmail),
+      body: StreamBuilder(
+        stream: _garmentsService.allGarments(ownerUserId: userId),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
-            case ConnectionState.done:
-              return StreamBuilder(
-                stream: _garmentsService.allGarments,
-                builder: (context, snapshot) {
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.waiting:
-                    case ConnectionState.active:
-                      if (snapshot.hasData) {
-                        final allGarments =
-                            snapshot.data as List<DatabaseGarment>;
-                        return GarmentsListView(
-                          garments: allGarments,
-                          onDeleteGarment: (garment) async {
-                            await _garmentsService.deleteGarment(
-                                id: garment.id);
-                          },
-                          onTap: (garment) {
-                            Navigator.of(context).pushNamed(
-                              createOrUpdateGarmentRoute,
-                              arguments: garment,
-                            );
-                          },
-                        );
-                      } else {
-                        return const CircularProgressIndicator();
-                      }
-                    default:
-                      return const CircularProgressIndicator();
-                  }
-                },
-              );
+            case ConnectionState.waiting:
+            case ConnectionState.active:
+              if (snapshot.hasData) {
+                final allGarments = snapshot.data as Iterable<CloudGarment>;
+                return GarmentsListView(
+                  garments: allGarments,
+                  onDeleteGarment: (garment) async {
+                    await _garmentsService.deleteGarment(
+                        documentId: garment.documentId);
+                  },
+                  onTap: (garment) {
+                    Navigator.of(context).pushNamed(
+                      createOrUpdateGarmentRoute,
+                      arguments: garment,
+                    );
+                  },
+                );
+              } else {
+                return const CircularProgressIndicator();
+              }
             default:
               return const CircularProgressIndicator();
           }

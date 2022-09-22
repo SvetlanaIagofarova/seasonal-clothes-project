@@ -34,17 +34,14 @@ class FirebaseCloudStorage {
       {required String ownerUserId}) async {
     try {
       return await garments
-          .where(ownerUserIdFieldName, isEqualTo: ownerUserId)
+          .where(
+            ownerUserIdFieldName,
+            isEqualTo: ownerUserId,
+          )
           .get()
           .then(
             (value) => value.docs.map(
-              (doc) {
-                return CloudGarment(
-                  documentId: doc.id,
-                  ownerUserId: doc.data()[ownerUserIdFieldName] as String,
-                  text: doc.data()[textFieldName] as String,
-                );
-              },
+              (doc) => CloudGarment.fromSnapshot(doc),
             ),
           );
     } catch (e) {
@@ -52,11 +49,17 @@ class FirebaseCloudStorage {
     }
   }
 
-  void createNewGarment({required String ownerUserId}) async {
-    await garments.add({
+  Future<CloudGarment> createNewGarment({required String ownerUserId}) async {
+    final document = await garments.add({
       ownerUserIdFieldName: ownerUserId,
       textFieldName: '',
     });
+    final fetchedGarment = await document.get();
+    return CloudGarment(
+      documentId: fetchedGarment.id,
+      ownerUserId: ownerUserId,
+      text: '',
+    );
   }
 
   static final FirebaseCloudStorage _shared =

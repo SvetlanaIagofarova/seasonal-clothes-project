@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:seasonalclothesproject/services/crud/garments_service.dart';
+import 'package:seasonalclothesproject/services/cloud/cloud_garment.dart';
 import 'package:seasonalclothesproject/utilities/dialogs/delete_dialog.dart';
 
-typedef GarmentCallBack = void Function(DatabaseGarment garment);
+typedef GarmentCallBack = void Function(CloudGarment garment);
 
 class GarmentsListView extends StatelessWidget {
-  final List<DatabaseGarment> garments;
+  final Iterable<CloudGarment> garments;
   final GarmentCallBack onDeleteGarment;
   final GarmentCallBack onTap;
 
@@ -21,7 +21,7 @@ class GarmentsListView extends StatelessWidget {
     return ListView.builder(
       itemCount: garments.length,
       itemBuilder: (context, index) {
-        final garment = garments[index];
+        final garment = garments.elementAt(index);
         return ListTile(
           onTap: () {
             onTap(garment);
