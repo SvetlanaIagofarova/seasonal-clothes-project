@@ -1,7 +1,10 @@
+import 'package:flutter_bloc/flutter_bloc.dart' show ReadContext;
 import 'package:seasonalclothesproject/constants/routes.dart';
 import 'package:seasonalclothesproject/enums/menu_action.dart';
 import 'package:seasonalclothesproject/services/auth/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:seasonalclothesproject/services/auth/bloc/auth_bloc.dart';
+import 'package:seasonalclothesproject/services/auth/bloc/auth_event.dart';
 import 'package:seasonalclothesproject/services/cloud/cloud_garment.dart';
 import 'package:seasonalclothesproject/services/cloud/firebase_cloud_storage.dart';
 import 'package:seasonalclothesproject/utilities/dialogs/logout_dialog.dart';
@@ -42,12 +45,10 @@ class _GarmentsViewState extends State<GarmentsView> {
                 case MenuAction.logout:
                   final shouldLogOut = await showLogOutDialog(context);
                   if (shouldLogOut) {
-                    await AuthService.firebase().logOut();
                     if (!mounted) return;
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                      loginRoute,
-                      (_) => false,
-                    );
+                    context.read<AuthBloc>().add(
+                          const AuthEventLogOut(),
+                        );
                   }
               }
             },
