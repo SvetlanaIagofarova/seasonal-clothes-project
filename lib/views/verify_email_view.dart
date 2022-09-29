@@ -1,6 +1,9 @@
 import 'package:seasonalclothesproject/constants/routes.dart';
 import 'package:seasonalclothesproject/services/auth/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seasonalclothesproject/services/auth/bloc/auth_bloc.dart';
+import 'package:seasonalclothesproject/services/auth/bloc/auth_event.dart';
 
 class VerifyEmailView extends StatefulWidget {
   const VerifyEmailView({Key? key}) : super(key: key);
@@ -24,18 +27,17 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
               'If you haven\'t received a verification email yet, press the buttom bellow.'),
           TextButton(
             onPressed: () {
-              AuthService.firebase().sendEmailVerification();
+              context.read<AuthBloc>().add(
+                    const AuthEventSendEmailVerification(),
+                  );
             },
             child: const Text('Send email verification'),
           ),
           TextButton(
             onPressed: () async {
-              await AuthService.firebase().logOut();
-              if (!mounted) return;
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                registerRoute,
-                (route) => false,
-              );
+              context.read<AuthBloc>().add(
+                    const AuthEventLogOut(),
+                  );
             },
             child: const Text('Restart'),
           )
