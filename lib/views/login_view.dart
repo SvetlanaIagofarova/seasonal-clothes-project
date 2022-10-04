@@ -4,7 +4,6 @@ import 'package:seasonalclothesproject/services/auth/bloc/auth_bloc.dart';
 import 'package:seasonalclothesproject/services/auth/bloc/auth_event.dart';
 import 'package:seasonalclothesproject/utilities/dialogs/error_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:seasonalclothesproject/utilities/dialogs/loading_dialog.dart';
 
 import '../services/auth/bloc/auth_state.dart';
 
@@ -18,7 +17,6 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   late final TextEditingController _email;
   late final TextEditingController _password;
-  CloseDialog? _closeDialogHandle;
 
   @override
   void initState() {
@@ -39,17 +37,6 @@ class _LoginViewState extends State<LoginView> {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) async {
         if (state is AuthStateLoggedOut) {
-          final closeDialog = _closeDialogHandle;
-
-          if (!state.isLoading && closeDialog != null) {
-            closeDialog();
-            _closeDialogHandle = null;
-          } else if (state.isLoading && closeDialog == null) {
-            _closeDialogHandle = showLoadingDialog(
-              context: context,
-              text: 'Loading...',
-            );
-          }
           if (state.exception is UserNotFoundAuthException) {
             await showErrorDialog(context, 'User not found');
           } else if (state.exception is WrongPasswordAuthException) {
