@@ -59,7 +59,8 @@ class HomePage extends StatelessWidget {
           return const LoginView();
         } else if (state is AuthStateForgotPassword) {
           return const ForgotPasswordView();
-        } else if (state is AuthStateRegistering) {
+        }
+        else if (state is AuthStateRegistering) {
           return const RegisterView();
         } else {
           return const Scaffold(
