@@ -24,30 +24,16 @@ class FirebaseCloudStorage {
       throw CouldNotUpdateGarmentException();
     }
   }
-
-  Stream<Iterable<CloudGarment>> allGarments({required String ownerUserId}) =>
-      garments.snapshots().map((event) => event.docs
-          .map((doc) => CloudGarment.fromSnapshot(doc))
-          .where((garment) => garment.ownerUserId == ownerUserId));
-
-  Future<Iterable<CloudGarment>> getGarments(
-      {required String ownerUserId}) async {
-    try {
-      return await garments
-          .where(
-            ownerUserIdFieldName,
-            isEqualTo: ownerUserId,
-          )
-          .get()
-          .then(
-            (value) => value.docs.map(
-              (doc) => CloudGarment.fromSnapshot(doc),
-            ),
-          );
-    } catch (e) {
-      throw CouldNotGetAllGarmentsException();
-    }
+  
+  Stream<Iterable<CloudGarment>> allGarments({required String ownerUserId}) {
+      final allGarments = garments
+          .where(ownerUserIdFieldName, isEqualTo: ownerUserId)
+          .snapshots()
+          .map((event) => event.docs
+          .map((doc) => CloudGarment.fromSnapshot(doc)));
+      return allGarments;
   }
+  
 
   Future<CloudGarment> createNewGarment({required String ownerUserId}) async {
     final document = await garments.add({
