@@ -1,34 +1,41 @@
 {
   "project_info": {
-    "project_number": "629550212071",
-    "project_id": "cambridgeenglishdictionaryfree",
-    "storage_bucket": "cambridgeenglishdictionaryfree.appspot.com"
+    "project_number": "783037481239",
+    "project_id": "seasonalclothesproject",
+    "storage_bucket": "seasonalclothesproject.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:629550212071:android:6c17b8e4d8183cc37a1342",
+        "mobilesdk_app_id": "1:783037481239:android:eaa6e54d6c463d507ab752",
         "android_client_info": {
-          "package_name": "com.siagofarova.cambridgeeglishdictionaryfree"
+          "package_name": "com.siagofarova.seasonalclothesproject"
         }
       },
       "oauth_client": [
         {
-          "client_id": "629550212071-dfpgohhps9ngoj9esr25hbslg1bbjcs4.apps.googleusercontent.com",
+          "client_id": "783037481239-9elutdv4m1uj5llt5ljdmistrao6trtp.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAfmanI5IMvlmta13OCSAzbRShgledH-z4"
+          "current_key": "AIzaSyDX2CXyEOrLKT8VXWhESl8xA3sTcp2IUgg"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "629550212071-dfpgohhps9ngoj9esr25hbslg1bbjcs4.apps.googleusercontent.com",
+              "client_id": "783037481239-9elutdv4m1uj5llt5ljdmistrao6trtp.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "783037481239-dmsar0dgks491n7hn56m6buhiijm4j93.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.siagofarova.seasonalclothesproject"
+              }
             }
           ]
         }

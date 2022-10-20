@@ -1,0 +1,1 @@
+const createOrUpdateGarmentRoute = '/garments/new-garment/';
