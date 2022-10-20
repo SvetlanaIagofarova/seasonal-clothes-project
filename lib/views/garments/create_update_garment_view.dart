@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:seasonalclothesproject/extentions/buildcontext/loc.dart';
 import 'package:seasonalclothesproject/services/auth/auth_service.dart';
 import 'package:seasonalclothesproject/utilities/dialogs/cannot_share_empty_garment_dialog.dart';
 import 'package:seasonalclothesproject/utilities/generics/get_arguments.dart';
@@ -94,7 +95,7 @@ class _CreateUpdateGarmentViewState extends State<CreateUpdateGarmentView> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('New Garment'),
+          title: Text(context.loc.garment),
           actions: [
             IconButton(
                 onPressed: () async {
@@ -118,8 +119,8 @@ class _CreateUpdateGarmentViewState extends State<CreateUpdateGarmentView> {
                   controller: _textController,
                   keyboardType: TextInputType.multiline,
                   maxLines: null,
-                  decoration: const InputDecoration(
-                      hintText: 'Add detailes about your garment here...'),
+                  decoration: InputDecoration(
+                      hintText: context.loc.start_adding_detailes_about_your_garment,),
                 );
               default:
                 return const CircularProgressIndicator();

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:seasonalclothesproject/extentions/buildcontext/loc.dart';
 import 'package:seasonalclothesproject/utilities/dialogs/generic_dialog.dart';
 
 Future<void> showCannotShareEmptyGarmentDialog(BuildContext context) {
   return showGenericDialog<void>(
     context: context,
-    title: 'Sharing',
-    content: 'You cannot share an empty garment :(',
+    title: context.loc.sharing,
+    content: context.loc.cannot_share_empty_garment_prompt,
     optionsBuilder: () => {
-      'OK': null,
+      context.loc.ok: null,
     },
   );
 }

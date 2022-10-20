@@ -1,4 +1,3 @@
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:seasonalclothesproject/firebase_options.dart';
 import 'package:seasonalclothesproject/services/auth/auth_user.dart';
 import 'package:seasonalclothesproject/services/auth/auth_provider.dart';
