@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:seasonalclothesproject/extentions/buildcontext/loc.dart';
 import 'package:seasonalclothesproject/services/auth/auth_service.dart';
 import 'package:seasonalclothesproject/utilities/dialogs/cannot_share_empty_garment_dialog.dart';
+import 'package:seasonalclothesproject/utilities/dialogs/error_dialog.dart';
+import 'package:seasonalclothesproject/utilities/dialogs/saved_dialog.dart';
 import 'package:seasonalclothesproject/utilities/generics/get_arguments.dart';
 import 'package:seasonalclothesproject/services/cloud/cloud_garment.dart';
 import 'package:seasonalclothesproject/services/cloud/firebase_cloud_storage.dart';
@@ -72,28 +74,34 @@ class _CreateUpdateGarmentViewState extends State<CreateUpdateGarmentView> {
     }
   }
 
-  void _saveGarmentIfItIsNotEmpty() async {
-    final garment = _garment;
-    final text = _textController.text;
-    if (garment != null && text.isNotEmpty) {
-      await _garmentsService.updateGarment(
-        documentId: garment.documentId,
-        text: text,
-      );
-    }
-  }
+  // void _saveGarmentIfItIsNotEmpty() async {
+  //   final garment = _garment;
+  //   final text = _textController.text;
+  //   if (garment != null && text.isNotEmpty) {
+  //     await _garmentsService.updateGarment(
+  //       documentId: garment.documentId,
+  //       text: text,
+  //     );
+  //   }
+  // }
 
   @override
   void dispose() {
     _deleteGarmentIfItIsEmpty();
-    _saveGarmentIfItIsNotEmpty();
+    // _saveGarmentIfItIsNotEmpty();
     _textController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+      onWillPop: () async {
+        final result = await showSavedDialog(context);
+        return result;
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: Text(context.loc.garment),
           actions: [
@@ -106,7 +114,26 @@ class _CreateUpdateGarmentViewState extends State<CreateUpdateGarmentView> {
                     Share.share(text);
                   }
                 },
-                icon: const Icon(Icons.share))
+                icon: const Icon(Icons.share)),
+            IconButton(
+              onPressed: () async {
+                final garment = _garment;
+                final text = _textController.text;
+                if (garment != null && text.isNotEmpty) {
+                  await _garmentsService.updateGarment(
+                    documentId: garment.documentId,
+                    text: text,
+                  );
+                } else {
+                  if (!mounted) return;
+                  await showErrorDialog(
+                    context,
+                    context.loc.forgot_password_view_generic_error,
+                  );
+                }
+              },
+              icon: const Icon(Icons.save),
+            )
           ],
         ),
         body: FutureBuilder(
@@ -120,12 +147,16 @@ class _CreateUpdateGarmentViewState extends State<CreateUpdateGarmentView> {
                   keyboardType: TextInputType.multiline,
                   maxLines: null,
                   decoration: InputDecoration(
-                      hintText: context.loc.start_adding_detailes_about_your_garment,),
+                    hintText:
+                        context.loc.start_adding_detailes_about_your_garment,
+                  ),
                 );
               default:
                 return const CircularProgressIndicator();
             }
           },
-        ));
+        ),
+      ),
+    );
   }
 }
