@@ -3,7 +3,7 @@ import 'package:seasonalclothesproject/extentions/buildcontext/loc.dart';
 import 'package:seasonalclothesproject/services/auth/auth_service.dart';
 import 'package:seasonalclothesproject/utilities/dialogs/cannot_share_empty_garment_dialog.dart';
 import 'package:seasonalclothesproject/utilities/dialogs/error_dialog.dart';
-import 'package:seasonalclothesproject/utilities/dialogs/saved_dialog.dart';
+import 'package:seasonalclothesproject/utilities/dialogs/saving_dialog.dart';
 import 'package:seasonalclothesproject/utilities/generics/get_arguments.dart';
 import 'package:seasonalclothesproject/services/cloud/cloud_garment.dart';
 import 'package:seasonalclothesproject/services/cloud/firebase_cloud_storage.dart';
@@ -41,10 +41,10 @@ class _CreateUpdateGarmentViewState extends State<CreateUpdateGarmentView> {
     );
   }
 
-  void _setupTextControllerListener() {
-    _textController.removeListener(_textControllerListener);
-    _textController.addListener(_textControllerListener);
-  }
+  // void _setupTextControllerListener() {
+  //   _textController.removeListener(_textControllerListener);
+  //   // _textController.addListener(_textControllerListener);
+  // }
 
   Future<CloudGarment> createOrGetExistingGarment(BuildContext context) async {
     final widgetGarment = context.getArgument<CloudGarment>();
@@ -97,7 +97,7 @@ class _CreateUpdateGarmentViewState extends State<CreateUpdateGarmentView> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        final result = await showSavedDialog(context);
+        final result = await showSavingDialog(context);
         return result;
       },
       child: Scaffold(
@@ -141,7 +141,7 @@ class _CreateUpdateGarmentViewState extends State<CreateUpdateGarmentView> {
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.done:
-                _setupTextControllerListener();
+                // _setupTextControllerListener();
                 return TextField(
                   controller: _textController,
                   keyboardType: TextInputType.multiline,

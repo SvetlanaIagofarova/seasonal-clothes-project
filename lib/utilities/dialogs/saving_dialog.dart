@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:seasonalclothesproject/extentions/buildcontext/loc.dart';
 import 'package:seasonalclothesproject/utilities/dialogs/generic_dialog.dart';
 
-Future<bool> showSavedDialog(BuildContext context) {
+Future<bool> showSavingDialog(BuildContext context) {
   return showGenericDialog<bool>(
     context: context,
     title: 'Are you sure?',
